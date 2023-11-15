@@ -3,7 +3,7 @@ import pymongo
 
 class BancoDeDados:
     def __init__(self, ip: str = 'localhost', porta: str = 27017):
-        self.cliente = pymongo.Mongocliente(f'mongodb://{ip}:{porta}/')
+        self.cliente = pymongo.MongoClient(f'mongodb://{ip}:{porta}/')
         self.banco = None
         self.colecoes = dict()
 
@@ -17,7 +17,26 @@ class BancoDeDados:
         print(self.banco.list_collection_names())
 
     def insere(self, colecao, dados):
-        print(colecao)
-        print(dados)
-        print(self.colecoes[colecao])
         self.colecoes[colecao].insert_many(dados)
+
+    def realiza_aggregation(self):
+        return self.cliente['Teste']['Carros'].aggregate(
+            [
+                {
+                    '$lookup': {
+                        'from': 'Montadoras',
+                        'localField': 'Montadora',
+                        'foreignField': 'Montadora',
+                        'as': 'Montadoras',
+                    }
+                },
+                {'$addFields': {'Pais': {'$first': '$Montadoras.País'}}},
+                {
+                    '$group': {
+                        '_id': '$Pais',
+                        'Carros': {'$addToSet': '$Carro'},
+                    }
+                },
+                {'$sort': {'_id': 1}},
+            ]
+        )

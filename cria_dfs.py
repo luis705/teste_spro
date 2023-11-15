@@ -34,3 +34,5 @@ if __name__ == '__main__':
     mongo.insere('Carros', json.loads(df_1.to_json(orient='records')))
     mongo.insere('Montadoras', json.loads(df_2.to_json(orient='records')))
     mongo.verifica_colecoes()
+
+    print(list(mongo.realiza_aggregation()))
