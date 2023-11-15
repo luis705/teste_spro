@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "teste técnico spro"
+version = "0.1.0"
+description = ""
+authors = ["Luís Otávio Amorim <luisotaviolamorim@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.1.3"
+pymongo = "^4.6.0"
+
+
+[tool.poetry.group.development.dependencies]
+blue = "^0.9.1"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
